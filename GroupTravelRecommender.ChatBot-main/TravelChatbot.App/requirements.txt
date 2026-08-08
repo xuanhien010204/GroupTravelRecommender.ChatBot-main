@@ -1,0 +1,17 @@
+openai
+streamlit
+tenacity
+python-dotenv
+boto3
+botocore
+pinecone
+numpy
+pandas
+PyPDF2
+langchain
+langchain-core
+langchain-openai
+langchain-community
+langchain-tavily
+langchain-text-splitters
+langgraph
