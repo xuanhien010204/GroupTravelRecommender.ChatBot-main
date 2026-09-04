@@ -37,6 +37,37 @@ App permissions: DynamoDB Scan/Query on Tours/index; Query/PutItem on UserTours/
 S3 GetObject for source links. Ingestion: DynamoDB Scan, S3 GetObject, embedding API,
 Pinecone fetch/upsert. Runtime Pinecone needs describe/query/fetch, not create/delete.
 
+If the live smoke test reports `not authorized to perform: dynamodb:Scan` on `Tours`,
+attach an identity policy to the exact IAM user or role used by the app. The minimum
+DynamoDB policy for runtime and ingestion is:
+
+~~~json
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": ["dynamodb:Scan", "dynamodb:Query"],
+      "Resource": [
+        "arn:aws:dynamodb:ap-southeast-2:<ACCOUNT_ID>:table/Tours",
+        "arn:aws:dynamodb:ap-southeast-2:<ACCOUNT_ID>:table/Tours/index/*",
+        "arn:aws:dynamodb:ap-southeast-2:<ACCOUNT_ID>:table/UserTours",
+        "arn:aws:dynamodb:ap-southeast-2:<ACCOUNT_ID>:table/UserTours/index/*"
+      ]
+    },
+    {
+      "Effect": "Allow",
+      "Action": "dynamodb:PutItem",
+      "Resource": "arn:aws:dynamodb:ap-southeast-2:<ACCOUNT_ID>:table/UserTours"
+    }
+  ]
+}
+~~~
+
+Replace `<ACCOUNT_ID>` and attach it to `asrp-be` in IAM > Users > Add permissions.
+Then rerun `python scripts/smoke_test.py`. If an organization SCP or permissions
+boundary denies the action, an account administrator must update that control too.
+
 Keep real secrets in a secret manager or environment. .env and local venvs are excluded
 from Docker. Links last SOURCE_LINK_TTL seconds.
 
