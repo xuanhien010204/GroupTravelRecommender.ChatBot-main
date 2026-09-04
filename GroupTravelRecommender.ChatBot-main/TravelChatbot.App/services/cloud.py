@@ -68,9 +68,18 @@ class Language:
                     "constraints", "current_itinerary")}
         return Query.model_validate(self.json(
             "Extract a travel request as JSON matching this schema: " + json.dumps(schema) +
-            ". Use conversation context for references. Set only explicitly mentioned preferences; "
-            "do not invent price, dates, phone numbers, tour IDs or interests. "
-            "Normalize semantic_query to the meaning of the request. "
+            ". You are responsible for understanding meaning: intent, destination, interests, "
+            "travel_party and pace, in Vietnamese or English, including indirect phrasing. "
+            "Use conversation context for references and follow-ups. "
+            "A turn that only adjusts soft preferences on an existing trip - who is "
+            "travelling ('di voi gia dinh', 'with my partner'), what matters more "
+            "('uu tien do an hon lich su'), or how packed the trip should be "
+            "('muon chill hon') - is intent refine_preferences, not a new search: it refines "
+            "the existing profile. Put anything explicitly deprioritised in "
+            "deprioritized_interests and order interests by how strongly they are preferred. "
+            "Set only explicitly mentioned preferences; do not invent price, dates, phone "
+            "numbers, tour IDs or interests, and never infer a travel_party that the user "
+            "did not state. Normalize semantic_query to the meaning of the request. "
             "Unrelated requests are out_of_domain. You cannot confirm bookings.",
             {"query": text, "context": context}))
 

@@ -28,9 +28,14 @@ def fixture_tours():
     return [
         dict(base, tourId="demo-01", title="Thien Mu Pagoda - history discussion", price=150000, category="history"),
         dict(base, tourId="demo-02", title="Hue food discovery", price=180000, category="food"),
-        dict(base, tourId="demo-03", title="Riverside nature pause", price=200000, category="nature"),
+        dict(base, tourId="demo-03", title="Riverside nature pause", price=200000, category="nature, relaxed"),
         dict(base, tourId="demo-04", title="Hue history reflection", price=220000, category="history"),
-        dict(base, tourId="demo-05", title="Hoi An heritage discussion", price=250000, category="history", place="Hoi An")]
+        dict(base, tourId="demo-05", title="Hoi An heritage discussion", price=250000, category="history", place="Hoi An"),
+        # Party suitability is only ever claimed from a tour's own record, never assumed.
+        dict(base, tourId="demo-06", title="Royal garden walk for families with children",
+             price=190000, category="family, culture"),
+        dict(base, tourId="demo-07", title="Perfume River couple sunset cruise",
+             price=210000, category="couple, relaxation")]
 
 
 class DemoRepository:
@@ -87,7 +92,23 @@ class DemoLanguage:
     def understand(self, text, state):
         return parse_rules(text, state)
 
+    def synthesize(self, payload):
+        """Deterministic fixture stand-in: restate the verified excerpts, invent nothing.
+
+        A real model writes prose here; the fixture only proves the wiring and the
+        verification gate, so it copies sentences that already passed quote checking.
+        """
+        excerpts = [str(text).strip() for text in payload.get("verified_excerpts", [])]
+        joined = " ".join(excerpts).replace("In this synthetic planning fixture, ", "")
+        if not joined:
+            return {"summary": ""}
+        prefix = ("Theo tài liệu di sản đã kiểm chứng: " if payload.get("language") == "vi"
+                  else "Based on the verified heritage sources: ")
+        return {"summary": prefix + joined}
+
     def json(self, system, payload):
+        if "verified_excerpts" in payload:
+            return self.synthesize(payload)
         query = tokens(payload["question"])
         if query & {"pyramid", "pyramids", "egypt", "egyptian", "weather", "president"}:
             return {"excerpts": []}

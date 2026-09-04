@@ -40,6 +40,12 @@ def main():
         print("FAIL config: set DEMO_MODE=false for live smoke tests")
         return 2
 
+    # A multi-line expression inside an f-string needs Python 3.12; keep the call outside it.
+    def scan_tours():
+        response = TourRepository(settings).client.scan(
+            TableName=settings.tours_table, Limit=1, Select="COUNT")
+        return f'Tours readable; page_count={response.get("Count", 0)}'
+
     checks = [
         run_check("chat", lambda: "JSON response received" if Language(settings).json(
             "Return JSON with ok=true.", {"test": "connectivity"}).get("ok") is True
@@ -48,8 +54,7 @@ def main():
         run_check("pinecone", lambda: (
             lambda desc: f"dimension={desc.dimension}, metric={desc.metric}"
         )(VectorStore(settings).description)),
-        run_check("dynamodb", lambda: f"Tours readable; page_count={TourRepository(settings).client.scan(
-            TableName=settings.tours_table, Limit=1, Select='COUNT').get('Count', 0)}"),
+        run_check("dynamodb", scan_tours),
         run_check("s3", lambda: "bucket readable" if Documents(settings).client.head_bucket(
             Bucket=settings.heritage_guide_s3_bucket) is not None else "bucket readable"),
     ]

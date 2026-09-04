@@ -4,6 +4,7 @@ import streamlit as st
 from config import ConfigurationError, Settings
 from agents.controller_agent import ControllerAgent, date_label
 from services.backend import create_backend
+from services.messages import INTEREST_LABELS, PACE_LABELS, PARTY_LABELS, label, t
 
 logging.basicConfig(level=logging.INFO, format="%(levelname)s %(name)s %(message)s")
 st.set_page_config(page_title="Common Ground | Travel Copilot", page_icon=":compass:", layout="wide")
@@ -40,6 +41,7 @@ if "controller" not in st.session_state:
     st.session_state.result = {}
 controller = st.session_state.controller
 state = st.session_state.result
+language = state.get("language", "en")
 
 if settings.demo_mode:
     st.warning("OFFLINE DEMO: synthetic tours, prices, dates and document fixtures. No cloud calls or real bookings.")
@@ -53,8 +55,11 @@ with st.sidebar:
     right.metric("Days", profile.get("days", "-"))
     budget = profile.get("budget_per_person")
     st.write("Budget / person", f"{budget:,} VND" if budget is not None else "Not set")
-    st.write("Interests", ", ".join(profile.get("interests", [])) or "Not set")
-    st.write("Pace", profile.get("pace", "Not set"))
+    st.write("Travelling as", label(PARTY_LABELS, profile["travel_party"], language)
+             if profile.get("travel_party") else "Not set")
+    st.write("Interests", ", ".join(label(INTEREST_LABELS, name, language)
+                                    for name in profile.get("interests", [])) or "Not set")
+    st.write("Pace", label(PACE_LABELS, profile["pace"], language) if profile.get("pace") else "Not set")
     st.caption("Tell the chat who is travelling; preferences update as the conversation develops.")
     if st.button("New trip", use_container_width=True):
         st.session_state.controller = ControllerAgent(create_backend(settings))
@@ -84,13 +89,23 @@ with chat:
     context = state.get("booking_context", {})
     if state.get("pending_action") == "REGISTER_TOUR":
         with st.container(border=True):
-            st.subheader("Review your booking")
-            st.write(context.get("tour", {}).get("title", "Select a tour"))
-            st.caption("Only this exact target will be registered after confirmation.")
+            st.subheader(t("ui_review_booking", language))
+            st.write(context.get("tour", {}).get("title", t("ui_select_tour", language)))
+            st.caption(t("ui_only_target", language))
+            # Confirmation stays disabled until a phone number exists: the graph will not
+            # register without one, so say why instead of showing a dead button.
+            ready = bool(context.get("ready"))
+            if ready:
+                st.caption(t("ui_phone_on_file", language, digits=str(context["phone"])[-4:]))
+            else:
+                st.warning(t("ui_need_phone_first", language))
             confirm, cancel = st.columns(2)
-            if confirm.button("Confirm booking", type="primary", disabled=not context.get("ready")):
+            # The trigger text is matched exactly by is_confirmation, so it is never localized.
+            if confirm.button(t("ui_confirm_booking", language), type="primary",
+                              disabled=not ready,
+                              help=None if ready else t("ui_need_phone_first", language)):
                 trigger = "confirm booking"
-            if cancel.button("Cancel booking"):
+            if cancel.button(t("ui_cancel_booking", language)):
                 trigger = "cancel booking"
 
 with details:
