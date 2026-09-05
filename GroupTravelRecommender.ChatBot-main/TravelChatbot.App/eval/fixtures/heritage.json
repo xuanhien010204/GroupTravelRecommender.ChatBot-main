@@ -1,0 +1,21 @@
+{
+  "provenance": "Authored synthetic test corpus. Not a real heritage guide, historical authority, price quote or availability feed.",
+  "documents": [
+    {"id": "fixture-hue-history", "tour_id": "demo-01", "place": "hue",
+     "document_name": "Synthetic Hue planning fixture",
+     "source_key": "eval/fixtures/heritage.json#fixture-hue-history",
+     "raw_text": "In this synthetic planning fixture, Thien Mu Pagoda is the history-interest stop. The fixture recommends a relaxed visit with time for group discussion."},
+    {"id": "fixture-hue-food", "tour_id": "demo-02", "place": "hue",
+     "document_name": "Synthetic Hue food fixture",
+     "source_key": "eval/fixtures/heritage.json#fixture-hue-food",
+     "raw_text": "In this synthetic planning fixture, the Hue food discovery activity is intended for people who prefer food and cuisine. No restaurant, menu price or opening hours have been verified."},
+    {"id": "fixture-hue-nature", "tour_id": "demo-03", "place": "hue",
+     "document_name": "Synthetic Hue nature fixture",
+     "source_key": "eval/fixtures/heritage.json#fixture-hue-nature",
+     "raw_text": "In this synthetic planning fixture, the riverside activity is a relaxed nature option. Its timing is a planning suggestion rather than a verified operating schedule."},
+    {"id": "fixture-hoian", "tour_id": "demo-05", "place": "hoi an",
+     "document_name": "Synthetic Hoi An fixture",
+     "source_key": "eval/fixtures/heritage.json#fixture-hoian",
+     "raw_text": "In this synthetic planning fixture, Hoi An has a group heritage discussion activity. This fixture does not establish real ticket prices or historical facts."}
+  ]
+}

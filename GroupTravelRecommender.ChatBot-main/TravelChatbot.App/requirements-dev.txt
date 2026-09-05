@@ -1,0 +1,3 @@
+-r requirements.txt
+# Optional browser smoke tests and screenshot generation; not needed by the server.
+playwright==1.62.0

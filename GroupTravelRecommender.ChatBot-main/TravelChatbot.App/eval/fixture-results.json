@@ -1,0 +1,67 @@
+{
+  "mode": "fixture",
+  "provenance": "Expected facts are exact excerpts of committed eval/fixtures/heritage.json. Synthetic test evidence only; not a live golden corpus.",
+  "cases": [
+    {
+      "id": "FIXTURE_HISTORY",
+      "hit_at_3": true,
+      "recall_at_5": 1.0,
+      "abstention_correct": true,
+      "citation_correct": true,
+      "grounded_answer": true,
+      "total_latency_ms": 0.56
+    },
+    {
+      "id": "FIXTURE_FOOD",
+      "hit_at_3": true,
+      "recall_at_5": 1.0,
+      "abstention_correct": true,
+      "citation_correct": true,
+      "grounded_answer": true,
+      "total_latency_ms": 0.42
+    },
+    {
+      "id": "FIXTURE_NATURE",
+      "hit_at_3": true,
+      "recall_at_5": 1.0,
+      "abstention_correct": true,
+      "citation_correct": true,
+      "grounded_answer": true,
+      "total_latency_ms": 0.38
+    },
+    {
+      "id": "FIXTURE_HOIAN",
+      "hit_at_3": true,
+      "recall_at_5": 1.0,
+      "abstention_correct": true,
+      "citation_correct": true,
+      "grounded_answer": true,
+      "total_latency_ms": 0.29
+    },
+    {
+      "id": "NEGATIVE_QUYNHON",
+      "hit_at_3": null,
+      "recall_at_5": null,
+      "abstention_correct": true,
+      "citation_correct": true,
+      "grounded_answer": null,
+      "total_latency_ms": 0.18
+    },
+    {
+      "id": "NEGATIVE_HUE",
+      "hit_at_3": null,
+      "recall_at_5": null,
+      "abstention_correct": true,
+      "citation_correct": true,
+      "grounded_answer": null,
+      "total_latency_ms": 0.24
+    }
+  ],
+  "metrics": {
+    "hit_at_3": 1.0,
+    "recall_at_5": 1.0,
+    "abstention_correct": 1.0,
+    "citation_correct": 1.0,
+    "grounded_answer": 1.0
+  }
+}

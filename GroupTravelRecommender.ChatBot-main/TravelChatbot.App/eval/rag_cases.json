@@ -1,0 +1,22 @@
+{
+  "mode": "fixture",
+  "provenance": "Expected facts are exact excerpts of committed eval/fixtures/heritage.json. Synthetic test evidence only; not a live golden corpus.",
+  "cases": [
+    {"id": "FIXTURE_HISTORY", "query": "Why choose Thien Mu Pagoda for history?", "place": "Hue",
+     "expected_sources": ["fixture-hue-history"],
+     "expected_facts": ["Thien Mu Pagoda is the history-interest stop"], "should_abstain": false},
+    {"id": "FIXTURE_FOOD", "query": "Which activity is for food and cuisine interests?", "place": "Hue",
+     "expected_sources": ["fixture-hue-food"],
+     "expected_facts": ["intended for people who prefer food and cuisine"], "should_abstain": false},
+    {"id": "FIXTURE_NATURE", "query": "What is the relaxed riverside nature option?", "place": "Hue",
+     "expected_sources": ["fixture-hue-nature"],
+     "expected_facts": ["the riverside activity is a relaxed nature option"], "should_abstain": false},
+    {"id": "FIXTURE_HOIAN", "query": "Group heritage discussion activity", "place": "Hội An",
+     "expected_sources": ["fixture-hoian"],
+     "expected_facts": ["Hoi An has a group heritage discussion activity"], "should_abstain": false},
+    {"id": "NEGATIVE_QUYNHON", "query": "Are there Egyptian pyramids in Quy Nhon?", "place": "Quy Nhon",
+     "expected_sources": [], "expected_facts": [], "should_abstain": true},
+    {"id": "NEGATIVE_HUE", "query": "Are there Egyptian pyramids in Hue?", "place": "Hue",
+     "expected_sources": [], "expected_facts": [], "should_abstain": true}
+  ]
+}
