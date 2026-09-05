@@ -1,0 +1,5 @@
+{
+  "mode": "live",
+  "provenance": "BLOCKED BY ENVIRONMENT: no actual S3 PDFs or human-verified source/page/fact labels were supplied. Populate cases after inspecting the deployed corpus.",
+  "cases": []
+}
